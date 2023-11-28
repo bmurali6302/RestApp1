@@ -1,6 +1,5 @@
 package com.lvg.rest.controller;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +28,7 @@ public class ProductController {
 	
 	@Autowired
 	ProductService productService;
-	
+	//value="/"
 	@GetMapping(produces="application/json")      //instead of json we can write xml its an out of context
 	public ResponseEntity<List<Product>> getAllProducts()
 	{
@@ -65,7 +64,7 @@ public class ProductController {
 		return new ResponseEntity<Product>(productService.getProductByName(productName),HttpStatus.OK);
 		
 	}
-	@PostMapping(value="/",consumes="application/json")
+	@PostMapping(consumes="application/json")
 	public HttpStatus addProductDetails(@RequestBody Product product) {
 		
 		if(productService.insertOrModifyProduct(product))
@@ -73,20 +72,19 @@ public class ProductController {
 		return HttpStatus.NOT_MODIFIED;
 	}
 	//modify the details using postman
-	@PutMapping(value="/",consumes="application/json")//put is for modification
+	@PutMapping(consumes="application/json")//put is for modification
 	public HttpStatus modifyProductDetails(@RequestBody Product product) {
 		
 		if(productService.insertOrModifyProduct(product))
 			return HttpStatus.OK;
 		return HttpStatus.NOT_MODIFIED;
 	}
+
 	
 	@DeleteMapping(value="/{productId}")
 	public HttpStatus deleteProductById(@PathVariable int productId) {
 		productService.deleteProductById(productId);
-			return HttpStatus.OK;
-	
-		
+			return HttpStatus.OK;	
 	}
 	/*@ExceptionHandler(ProductNotFoundException.class)
 	public HttpStatus productNotFoundExceptionhandler(ProductNotFoundException ex) {
